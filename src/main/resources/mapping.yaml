@@ -1,0 +1,37 @@
+sampleMappingVersion: apps/v1
+dataMapping:
+  arrivUrg: hospitalizationUrgency
+  diagnosis: hospitalizationDiagnosis
+  disStat: hospitalizationDischargeLocation
+  hospStatus: hospitalizationLevelOfCare
+  hospDate: hospitalizationPatientVisitStart
+  disDate: hospitalizationPatientVisitEnd
+  patId: patiendId
+  patIdType: patientIdType
+  patDOB: patientDOB
+  patAgeGrp: patientAgeGroup
+  patSex: patientGender
+  patDeathYr: patientDeathYear
+  patDeathMon: patientDeathMonth
+  patCountyNum: patientCountyNumber
+  patCountyName: patientCountyName
+  docId: practitionerId
+  docIdType: practitionerIdType
+  docDOB: practitionerDOB
+  docSex: practitionerGender
+  prescLegalCat: prescriptionLegalCategory
+  prescLegalCatCode: prescriptionLegalCategoryCode
+  reimburseLegalCat: reimbursementLegalCategory
+  reimburseLegalCatCode: reimbursementLegalCategoryCode
+  reimburseICDCode: reimbursementICDCode
+  reimburseICPCCode: reimbursementICPCCode
+  medNumber: prescribedDrugNumber
+  medName: prescribedDrugName
+  medATCCode: prescribedDrugATCCode
+  medDDDValue: prescribedDrugATCCodeDDD
+  medDDDUnit: prescribedDrugATCCodeDDDDose
+  prescNumber: prescriptionNumber
+  hospName: instituteName
+  medDispenseDate: prescribedDrugDeliveryDate
+  numOfPackageDis: numberOfPackagesDispensedForDrug
+  numOfPackageDisDDD: numberOfPackagesDispensedForDrugDDD
