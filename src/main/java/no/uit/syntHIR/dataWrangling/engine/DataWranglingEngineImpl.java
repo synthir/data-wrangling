@@ -75,6 +75,7 @@ public class DataWranglingEngineImpl implements DataWranglingEngine {
 	 * @return List<ResourceResList>
 	 * 
 	 */
+	@SuppressWarnings("null")
 	@Override
 	public List<ResourceResList> convertCSVToFHIRResourcesJson(BufferedReader csvFileBufferedReader) {
 
@@ -785,6 +786,7 @@ public class DataWranglingEngineImpl implements DataWranglingEngine {
 	 * @return InputStream object of CSV file
 	 * 
 	 */
+	@SuppressWarnings("null")
 	@Override
 	public InputStream convertFHIRResourcesJsonObjToCSV(List<ResourceResList> resourceResponseList) {
 
