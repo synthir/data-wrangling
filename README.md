@@ -10,41 +10,93 @@
 
 It is used to convert data between CSV files and FHIR format. Conversion is a two-step process:
 
-1. It uses the index file (resources/mapping.yaml) which holds the mapping details of the input CSV to the FHIR resources and it's respective attributes. Below is the screenshot of the mapping file for the dataset used to demonstrate SyntHIR. The key names of the mapping file are the header name of attributes of the input CSV file.
+1. It uses the index file called mapping.yaml(located in the folder src/main/resources/mapping.yaml) which holds the mapping details of the input CSV to the FHIR resources and it's respective attributes. Below is the screenshot of the mapping file for the dataset used to demonstrate SyntHIR. The key names of the mapping file are the header name of attributes of the input CSV file.
 
 ![](README_images/mapping_file.png "Mapping file")
 
-2. Populates the template of the FHIR resource (resources/FHIRResources/request-templates) with the values of the attributes from the CSV records.
+2. Populates the template of the FHIR resource (located in the folder src/main/resources/FHIRResources/request-templates) with the values of the attributes from the CSV records.
 
-### Component Configuration
+## Getting Started
 
-To configure the following details to the properties file (application-prod.properties) in resources folder:
+If you want to just run the Data Wrangling component, should follow the [Run the component using Docker image](#run-the-component-using-docker-image) instructions instead, and to examine or extend the source code, follow [Developer Start Guide](#developer-start-guide) instructions.
 
-1. server.port=XXXX (Port on which the application will run)
+### [Run the component using Docker image](#run-the-component-using-docker-image)
 
-### Steps to run the component
+The docker image of the component is uploaded on the DockerHub, and docker file is also available in the root directory of the project source code (named as Dockerfile), which needs to be build into a image. The docker image can run on the local machine or on 'play with docker' (https://www.docker.com/play-with-docker/).
 
-1. Using the Dockerfile of the component
-   1. Build the image of the dockerfile using following steps :
-      1. Start the docker daemon
-      2. Cd to the root directory of the project (where is the dockerfile)
-      3. Build using the command : docker build --tag 'data_wrangling_services:v1.0' .
-         (Argument --tag indicates the repository name for the image (data_wrangling_services) and tag is v1.0)
-   2. Run the docker image using the command : docker run -p 1234:8081 data_wrangling_services:v1.0
-      (data_wrangling_services is the repository name of the docker image; 8081 is the port number on which the application is running in the container and 1234 is the port number mapped to 8081 port of the container)
-2. Pull the docker image from docker hub and run it
-   1. Docker image pull command : docker pull pavitra89/data_wrangling_services:v1.0
-   2. Docker image run command : docker run -p 1234:8081 data_wrangling_services:v1.0
+To run the dockerfile on the local machine, install docker desktop on windows, linux or mac using the link : https://docs.docker.com/get-docker/. Pull the docker image from docker hub and run it OR Use the dockerfile available in the source code.
+
+To use the docker image from docker hub, pull and run:
+
+```
+docker pull synthir21/data_wrangling:v1.0
+docker run -p 1234:8081 synthir21/data_wrangling:v1.0
+```
+
+To use the dockerfile available in the source code, first clone the repository:
+
+```
+git clone https://github.com/synthir/data-wrangling.git
+cd data-wrangling
+```
+
+Now, build docker image from the dockerfile and run:
+
+```
+docker build --tag 'data_wrangling:v1.0' .
+docker run -p 1234:8081 data_wrangling:v1.0
+```
+
+Argument --tag indicates the repository name for the image (data_wrangling) and tag is v1.0; 8081 is the port number on which the application is running in the container and 1234 is the port number mapped to 8081 port of the container.
+
+### [Developer Start Guide](#developer-start-guide)
+
+These instructions are intended for those who want to examine the source code, extend it or build the code locally.
+
+**System Requirements:** Data Wrangling component requires Java JDK 17 or newer (JDK download link: https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html).To clone the repository:
+
+```
+
+git clone https://github.com/synthir/data-wrangling.git
+cd data-wrangling
+
+```
+
+**Component Configuration:** Update the component configuration files:
+
+```
+
+1. Add the port number to run the component to the properties file called application-prod.properties (located in the folder src/main/resources/application-prod.properties): server.port=XXXX (Port on which the application will run)
+
+2. Update the mapping.yaml file (located in the folder src/main/resources/mapping.yaml) with the key names of the input CSV file
+
+```
+
+**Build and run the component**
+
+```
+
+mvnw clean
+mvnw install
+mvnw spring-boot:run
+
+```
 
 After running the component, the API can called be called using the hostname:portname followed by the API URL
 
-### API details
+## Dataset
+
+A sample dataset used for the development of the SyntHIR system is uploaded in the resources folders of the project source code (located in src/main/resources/Dataset/Norway_registry_dataset_sample.csv).
+
+## API details
+
+To run the API, you can use Postman (https://www.postman.com/). The default port in the application properties file is 8081 (properties file located in src/main/resources/application-prod.properties), and default hostname for running on the local machine is 'localhost'.
 
 1. Convert CSV to FHIR resources
 
    1. Request URL: http://hostname:port-number/api/v1/data-wrangling/convert/npr/csv-to-fhir
    2. Request Type: POST
-   3. Request Body: Will have form-data. With CSV file in request param named "file".
+   3. Request Body: Will be 'form-data' and type of value as 'file'. Key name of the CSV file request param is "file".
    4. Response Body: Will be a list of JSON objects (Example of single JSON object from the list). Sample of JSON response is below:
 
    ```json
@@ -680,7 +732,7 @@ After running the component, the API can called be called using the hostname:por
 
 2. Convert FHIR resource list to CSV file
 
-   1. Request URL: httphttp://localhost:XXXX/api/v1/data-wrangling/convert/npr/fhir-to-csv
+   1. Request URL: http://hostname:port-number/api/v1/data-wrangling/convert/npr/fhir-to-csv
    2. Request Type: POST
    3. Request Body: Will be a list of JSON objects. Example of JSON is given below:
 
